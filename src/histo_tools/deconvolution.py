@@ -145,5 +145,7 @@ def run_full(rgb_im, mask_im):
     ch_i0 = get_i0(rgb_im, mask_im)
     od_im, _ = mask_od(get_od(rgb_im, ch_i0), mask_im)
     stains_norm = get_stain_matrix(od_im)
-    deconv_od_im = get_od_decon_im(od_im, deconvolve_od(od_im, stains_norm))
-    return deconv_od_im
+    deconv_od_matrix = deconvolve_od(od_im, stains_norm)
+    deconv_od_im = get_od_decon_im(od_im, deconv_od_matrix)
+    deconv_rgb_im = get_rgb_decon_im(rgb_im, deconv_od_matrix, ch_i0)
+    return deconv_od_im, deconv_rgb_im, stains_norm
