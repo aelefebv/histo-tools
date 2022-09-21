@@ -1,15 +1,17 @@
 import numpy as np
 
 
-def get_i0(rgb_im, mask_im):
+def get_i0(rgb_im, mask_im=None):
     # Get I0 for individual channels
     if rgb_im.shape[-1] > 3:
         rgb_im = rgb_im[..., :3]
     rbg_im = rgb_im.astype(float)
-
     ch_i0 = []
     for ch in range(rbg_im.shape[2]):
-        ch_i0.append(np.median(rbg_im[..., ch][mask_im < 1]))
+        if mask_im is None:
+            ch_i0.append(np.median(rbg_im[..., ch]))
+        else:
+            ch_i0.append(np.median(rbg_im[..., ch][mask_im < 1]))
     return ch_i0
 
 
@@ -25,12 +27,13 @@ def get_od(rgb_im, ch_i0):
     return od_im
 
 
-def mask_od(od_im, mask_im, bg_threshold=0.01):
+def mask_od(od_im, mask_im=None, bg_threshold=0.01):
     od_mask = od_im > bg_threshold
 
     # mask out other unwanted regions using mask file
-    for ch in range(od_im.shape[2]):
-        od_im[..., ch] = od_im[..., ch] * (mask_im > 0)
+    if mask_im is not None:
+        for ch in range(od_im.shape[2]):
+            od_im[..., ch] = od_im[..., ch] * (mask_im > 0)
 
     # apply the mask to the optical density image
     od_im = od_im * (od_mask > 0)
@@ -141,7 +144,7 @@ def get_rgb_decon_im(rgb_im, deconv_od_matrix, ch_i0):
     return deconv_rgb_im
 
 
-def run_full(rgb_im, mask_im):
+def run_full(rgb_im, mask_im=None):
     ch_i0 = get_i0(rgb_im, mask_im)
     od_im, _ = mask_od(get_od(rgb_im, ch_i0), mask_im)
     stains_norm = get_stain_matrix(od_im)
