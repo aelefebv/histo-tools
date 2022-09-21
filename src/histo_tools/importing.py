@@ -9,4 +9,4 @@ def open_ndpi(path, level=0):
         level = min(level, max(group_keys))
         level = max(level, min(group_keys))
         assert isinstance(group, zarr.Group)
-        return group[str(level)][..., -1]
+        return group[str(level)]
