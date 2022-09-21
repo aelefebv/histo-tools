@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 setup(
     name='histo-tools',
-    version='0.0.3',
+    version='0.0.4',
     description='General histology tools.',
     author='Austin E. Y. T. Lefebvre',
     license='MIT',
@@ -11,6 +11,9 @@ setup(
     url='https://github.com/aelefebv/histo-tools',
     keywords='histology',
     install_requires=[
-          'numpy',
+        'numpy',
+        'zarr',
+        'imagecodecs',
+        'tifffile',
       ],
 )

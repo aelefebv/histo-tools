@@ -41,7 +41,7 @@ def mask_od(od_im, mask_im, bg_threshold=0.01):
     return od_im, od_mask
 
 
-def flatten_and_threshold(od_im, beta):
+def flatten_and_threshold(od_im, beta=0.15):
     # flatten image but keep 3 channels separate
     od_flat = od_im.reshape((-1, od_im.shape[-1])).T
 
@@ -149,3 +149,4 @@ def run_full(rgb_im, mask_im):
     deconv_od_im = get_od_decon_im(od_im, deconv_od_matrix)
     deconv_rgb_im = get_rgb_decon_im(rgb_im, deconv_od_matrix, ch_i0)
     return deconv_od_im, deconv_rgb_im, stains_norm
+
