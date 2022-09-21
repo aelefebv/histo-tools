@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 setup(
     name='histo-tools',
-    version='0.0.8',
+    version='0.0.9',
     description='General histology tools.',
     author='Austin E. Y. T. Lefebvre',
     license='MIT',
