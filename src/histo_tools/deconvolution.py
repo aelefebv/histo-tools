@@ -1,4 +1,7 @@
-import numpy as np
+try:
+    import cupy as np
+except:
+    import numpy as np
 
 
 def get_i0(rgb_im, mask_im=None):

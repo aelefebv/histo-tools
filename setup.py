@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 setup(
     name='histo-tools',
-    version='0.0.9',
+    version='0.0.10',
     description='General histology tools.',
     author='Austin E. Y. T. Lefebvre',
     license='MIT',
@@ -15,5 +15,6 @@ setup(
         'zarr',
         'imagecodecs',
         'tifffile',
+        'cupy-cuda11x',
       ],
 )
