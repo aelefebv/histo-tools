@@ -1,7 +1,8 @@
-try:
-    import cupy as np
-except:
-    import numpy as np
+# try:
+#     import cupy as np
+# except:
+#     import numpy as np
+import numpy as np
 
 
 def get_i0(rgb_im, mask_im=None):
@@ -148,6 +149,9 @@ def get_rgb_decon_im(rgb_im, deconv_od_matrix, ch_i0):
 
 
 def run_full(rgb_im, mask_im=None):
+    rgb_im = np.asarray(rgb_im)
+    if mask_im is not None:
+        mask_im = np.asarray(mask_im)
     ch_i0 = get_i0(rgb_im, mask_im)
     od_im, _ = mask_od(get_od(rgb_im, ch_i0), mask_im)
     stains_norm = get_stain_matrix(od_im)
@@ -158,9 +162,21 @@ def run_full(rgb_im, mask_im=None):
 
 
 def deconvolve_from_stain_matrix(rgb_im, stains_norm, mask_im=None):
+    rgb_im = np.asarray(rgb_im)
+    if mask_im is not None:
+        mask_im = np.asarray(mask_im)
     ch_i0 = get_i0(rgb_im, mask_im)
     od_im, _ = mask_od(get_od(rgb_im, ch_i0), mask_im)
     deconv_od_matrix = deconvolve_od(od_im, stains_norm)
     deconv_od_im = get_od_decon_im(od_im, deconv_od_matrix)
     deconv_rgb_im = get_rgb_decon_im(rgb_im, deconv_od_matrix, ch_i0)
     return deconv_od_im, deconv_rgb_im
+
+
+if __name__ == "__main__":
+    # pass
+    from src.histo_tools import importing
+    ndpi_path = r"C:\Users\austin\test_files\andrea_tc\P22104 Calico\P22104 Lung TC\P22104 Trichrome Lung 45.ndpi"
+    rgb = importing.open_ndpi(ndpi_path, level=0)
+    _, stains_norm = run_full(rgb)
+
